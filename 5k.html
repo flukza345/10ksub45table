@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>แผนฝึกวิ่ง 5K Sub-32:30 | 9 สัปดาห์</title>
+<style>
+  :root {
+    --navy-0: #0a0f1f; --navy-1: #0f1d3d; --ink: #0f172a; --ink-2: #1e293b;
+    --muted: #64748b; --faint: #94a3b8; --line: #e5eaf2; --line-2: #eef2f8;
+    --soft: #f4f7fc; --blue: #1d4ed8; --blue-2: #4f8cff; --blue-soft: #e0ecff;
+    --on-dark: #e6ecf7; --on-dark-2: #9fb0cf;
+    --base: #15803d; --base-bg: #dcfce7; --build: #a16207; --build-bg: #fef3c7;
+    --peak: #b91c1c; --peak-bg: #fee2e2; --taper: #6d28d9; --taper-bg: #ede9fe;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  body {
+    margin: 0; color: var(--on-dark); line-height: 1.6;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", "Sarabun", system-ui, sans-serif;
+    background: var(--navy-0) linear-gradient(180deg, var(--navy-0) 0%, var(--navy-1) 520px, #0b1328 100%) no-repeat;
+    min-height: 100vh;
+  }
+  .page { max-width: 1040px; margin: 0 auto; padding: 44px 24px 64px; }
+
+  /* Hero */
+  .hero { margin-bottom: 22px; }
+  .eyebrow { font-size: .74rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #8fb4ff; }
+  .hero h1 { margin: 6px 0 6px; font-size: 2.7rem; line-height: 1.05; font-weight: 800; letter-spacing: -.03em; color: #fff; }
+  .hero h1 span { color: var(--blue-2); }
+  .hero .sub { margin: 0; color: var(--on-dark-2); font-size: .95rem; }
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 22px; }
+  .kpi { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.10); border-radius: 14px; padding: 14px 16px; }
+  .kpi b { display: block; font-size: 1.55rem; font-weight: 800; color: #fff; font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
+  .kpi span { font-size: .74rem; color: var(--on-dark-2); }
+
+  .warn { background: rgba(79,140,255,.10); border: 1px solid rgba(79,140,255,.28); border-radius: 14px; padding: 14px 18px; margin: 0 0 18px; color: #dbe6ff; font-size: .92rem; }
+  .warn strong { color: #fff; }
+
+  /* Section cards */
+  .sec { background: #fff; color: var(--ink); border-radius: 20px; padding: 26px 28px; margin: 16px 0; box-shadow: 0 12px 32px rgba(2,6,23,.28); }
+  .sec h2 { margin: 0 0 14px; font-size: 1.28rem; font-weight: 800; letter-spacing: -.01em; color: var(--ink); display: flex; align-items: center; gap: 10px; }
+  .sec h2 span { font-size: .72rem; font-weight: 700; color: var(--blue); background: var(--blue-soft); border-radius: 8px; padding: 3px 8px; font-variant-numeric: tabular-nums; }
+  .sec h3 { font-size: 1.02rem; font-weight: 700; margin: 22px 0 8px; color: var(--ink); }
+  .sec p { margin: 8px 0; }
+
+  table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: .88rem; margin: 10px 0 16px; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  th { background: var(--soft); color: #475569; font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+  td { padding: 10px 12px; border-bottom: 1px solid var(--line-2); vertical-align: top; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #f8fafd; }
+
+  .box { background: var(--soft); border-left: 3px solid var(--blue); border-radius: 12px; padding: 14px 16px; margin: 12px 0; color: var(--ink-2); line-height: 1.7; }
+  .box strong { color: var(--ink); }
+  .note { font-size: .84rem; color: var(--muted); line-height: 1.6; }
+  .note strong { color: var(--ink-2); }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .84em; background: #eef3fb; color: var(--blue); padding: 1px 6px; border-radius: 6px; }
+
+  /* Week cards */
+  .weeks { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 14px; margin: 16px 0 6px; }
+  .wk { border: 1px solid var(--line); border-top-width: 4px; border-radius: 16px; padding: 14px 16px 6px; background: #fff; }
+  .wk.base { border-top-color: var(--base); } .wk.build { border-top-color: var(--build); }
+  .wk.peak { border-top-color: var(--peak); } .wk.taper { border-top-color: var(--taper); }
+  .wk-h { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 4px; }
+  .wk-h b { font-size: 1.08rem; color: var(--ink); }
+  .wk-h small { color: var(--muted); font-size: .8rem; margin-left: 6px; font-weight: 500; }
+  .wk-h em { font-style: normal; color: var(--muted); font-size: .76rem; }
+  .tag { display: inline-block; font-size: .64rem; font-weight: 700; letter-spacing: .04em; padding: 3px 9px; border-radius: 999px; }
+  .t-base { background: var(--base-bg); color: var(--base); } .t-build { background: var(--build-bg); color: var(--build); }
+  .t-peak { background: var(--peak-bg); color: var(--peak); } .t-taper { background: var(--taper-bg); color: var(--taper); }
+  .day { display: grid; grid-template-columns: 58px 1fr; gap: 10px; padding: 8px 0; border-top: 1px solid var(--line-2); font-size: .86rem; }
+  .day .dn { color: var(--muted); font-size: .78rem; font-weight: 600; padding-top: 1px; }
+  .day .dv { color: var(--ink); line-height: 1.45; }
+  .day .dv .x { display: block; color: var(--muted); font-size: .76rem; margin-top: 2px; }
+  .day.hard .dn { color: var(--blue); }
+  .day.hard .dv, .day.hard .dv strong { color: var(--blue); }
+  .day.long .dn { color: var(--ink); }
+  .day.long .dv { font-weight: 600; }
+  .day.rest .dv { color: var(--faint); }
+
+  footer { margin-top: 30px; text-align: center; font-size: .8rem; color: var(--on-dark-2); line-height: 1.7; }
+
+  @media (max-width: 640px) {
+    .page { padding: 26px 14px 48px; }
+    .hero h1 { font-size: 2.05rem; }
+    .hero .sub { font-size: .86rem; }
+    .kpis { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .kpi { padding: 12px 13px; }
+    .kpi b { font-size: 1.3rem; }
+    .sec { padding: 20px 16px; border-radius: 16px; }
+    .sec h2 { font-size: 1.12rem; }
+    table { font-size: .8rem; }
+    th, td { padding: 8px 9px; }
+    .warn { font-size: .85rem; padding: 12px 14px; }
+  }
+
+  @media print {
+    body { background: #fff; color: #000; }
+    .hero h1, .kpi b { color: #000; }
+    .kpi, .warn { border-color: #ccc; background: #fff; color: #000; }
+    .sec { box-shadow: none; border: 1px solid #ddd; page-break-inside: avoid; }
+    .wk { page-break-inside: avoid; }
+  }
+
+  .box.alert { border-left-color: #b91c1c; background: #fef2f2; }
+  .box.alert strong { color: #991b1b; }
+  .wk-note { font-size: .76rem; color: var(--muted); margin: 0 0 4px; }
+  .t-race { background: #dbeafe; color: #1d4ed8; }
+  .wk.race { border-top-color: #1d4ed8; }
+</style>
+</head>
+<body>
+<div class="page">
+<header class="hero">
+  <div class="eyebrow">Training Plan · 9 สัปดาห์</div>
+  <h1>5K <span>Sub-32:30</span></h1>
+  <p class="sub">วิ่ง 5 กม. ให้ได้ต่ำกว่า 32:30 · เริ่ม 5 พ.ย. 2569 → วันแข่ง อาทิตย์ 10 ม.ค. 2570 · แผนสำหรับคนกลับมาวิ่งใหม่</p>
+  <div class="kpis">
+    <div class="kpi"><b>32:30</b><span>เป้าเวลา 5K</span></div>
+    <div class="kpi"><b>6:30</b><span>race pace /กม.</span></div>
+    <div class="kpi"><b>34:00</b><span>PB เดิม (2 ปีก่อน)</span></div>
+    <div class="kpi"><b>9</b><span>สัปดาห์</span></div>
+  </div>
+</header>
+
+<div class="warn">
+  <strong>⚠️ เคยมีอาการข้อเท้าบวมและเจ็บใต้ฝ่าเท้า:</strong> แผนนี้เพิ่มระยะทีละน้อย มีท่าดูแลเท้าทุกวันจันทร์/ศุกร์ และมีกฎหยุดเมื่อเจ็บ (หัวข้อ 06)
+  ถ้าเจ็บฝ่าเท้าก้าวแรกตอนเช้าติดกันหลายวัน หรือข้อเท้าบวมซ้ำ ให้หยุดวิ่งและไปพบนักกายภาพหรือแพทย์ก่อน
+</div>
+
+<section class="sec">
+<h2><span>01</span> Pace เป้าหมาย</h2>
+<div class="box">
+  <strong>Race pace = 6:30/กม. (= 32:30)</strong> เร็วกว่า PB เดิม 34:00 (6:48/กม.) ราว 18 วินาที/กม.
+  ตอนนี้ยังวิ่งสลับเดินอยู่ จึงใช้ 3 สัปดาห์แรกสร้างฐานให้กลับมาวิ่งรวดได้ก่อน แล้วค่อยเพิ่มความเร็ว
+</div>
+<table>
+  <tr><th>ประเภท</th><th>Pace (นาที/กม.)</th><th>ความรู้สึก / ใช้ตอนไหน</th></tr>
+  <tr><td><strong>Race pace (RP)</strong></td><td><strong>6:30</strong></td><td>เป้าแข่ง = 32:30 · หายใจหนัก พูดได้เป็นคำสั้นๆ</td></tr>
+  <tr><td>Interval (I)</td><td>5:55–6:20</td><td>ช่วงเร็วสั้นๆ 1 นาที หรือ 400–800 ม. เร็วกว่า race pace เล็กน้อย</td></tr>
+  <tr><td>Tempo (T)</td><td>6:45–7:00</td><td>หนักแต่คุมได้ ค้างได้ 8–15 นาที</td></tr>
+  <tr><td>Easy / run-walk (E)</td><td>7:45–8:30</td><td>พูดคุยได้เต็มประโยค ช้าไว้ก่อน</td></tr>
+  <tr><td>Long (L)</td><td>8:00–8:30</td><td>ช้าสบาย เน้นเวลาบนเท้า ไม่เน้นความเร็ว</td></tr>
+</table>
+</section>
+
+<section class="sec">
+<h2><span>02</span> ตารางฝึก 9 สัปดาห์ + สัปดาห์แข่ง</h2>
+<p class="note">
+  <strong>จันทร์</strong> เดิน/จ็อกเบา + ดูแลเท้า · <strong>อังคาร</strong> Interval + เวท A · <strong>พุธ</strong> Easy ·
+  <strong>พฤหัส</strong> Tempo + เวท B · <strong>ศุกร์</strong> เดิน/จ็อกเบา + ดูแลเท้า · <strong>เสาร์</strong> พัก · <strong>อาทิตย์</strong> Long run
+</p>
+<p class="note">💡 วันจันทร์และศุกร์ใช้เดินเร็วหรือจ็อกเบาแทนการวิ่งเต็ม เพื่อลดแรงกระแทกที่ข้อเท้าและฝ่าเท้า ·
+  <strong>กฎเพิ่มระยะ:</strong> ขยับไปสัปดาห์ถัดไปได้เมื่อเช้าวันรุ่งขึ้นไม่เจ็บ ถ้ายังเจ็บให้ทำสัปดาห์เดิมซ้ำ</p>
+<div class="weeks">
+<article class="wk base">
+  <div class="wk-h"><div><b>W1</b><small>2–8 พ.ย.</small></div><div><span class="tag t-base">BASE</span></div></div>
+  <p class="wk-note">เริ่มซ้อมวันพฤหัส 5 พ.ย.</p>
+  <div class="day rest"><div class="dn">จันทร์</div><div class="dv">—<span class="x">ยังไม่เริ่ม</span></div></div>
+  <div class="day rest"><div class="dn">อังคาร</div><div class="dv">—<span class="x">ยังไม่เริ่ม</span></div></div>
+  <div class="day rest"><div class="dn">พุธ</div><div class="dv">—<span class="x">ยังไม่เริ่ม</span></div></div>
+  <div class="day hard"><div class="dn">พฤหัส</div><div class="dv">Tempo เบา: <strong>5×(วิ่ง 3' @7:00 / เดิน 1:30)</strong><span class="x">💪 เวท B</span></div></div>
+  <div class="day"><div class="dn">ศุกร์</div><div class="dv">เดินเร็ว 25'<span class="x">🧘 ดูแลเท้า</span></div></div>
+  <div class="day rest"><div class="dn">เสาร์</div><div class="dv">พัก</div></div>
+  <div class="day long"><div class="dn">อาทิตย์</div><div class="dv">Long run-walk 35': (วิ่ง 3' / เดิน 1') ช้าสบาย<span class="x">🧘 ยืดน่อง + ฝ่าเท้า</span></div></div>
+</article>
+<article class="wk base">
+  <div class="wk-h"><div><b>W2</b><small>9–15 พ.ย.</small></div><div><span class="tag t-base">BASE</span></div></div>
+  <div class="day"><div class="dn">จันทร์</div><div class="dv">เดินเร็ว 25–30'<span class="x">🧘 ดูแลเท้า</span></div></div>
+  <div class="day hard"><div class="dn">อังคาร</div><div class="dv">Interval เบา: <strong>6×(วิ่ง 1' @6:30 / เดิน 2')</strong><span class="x">💪 เวท A</span></div></div>
+  <div class="day"><div class="dn">พุธ</div><div class="dv">Run-walk 30': 8×(วิ่ง 2' / เดิน 1') ช้าสบาย</div></div>
+  <div class="day hard"><div class="dn">พฤหัส</div><div class="dv">Tempo เบา: <strong>4×(วิ่ง 5' @7:00 / เดิน 1:30)</strong><span class="x">💪 เวท B</span></div></div>
+  <div class="day"><div class="dn">ศุกร์</div><div class="dv">เดินเร็ว 25' (หรือพัก ถ้าเท้าล้า)<span class="x">🧘 ดูแลเท้า</span></div></div>
+  <div class="day rest"><div class="dn">เสาร์</div><div class="dv">พัก</div></div>
+  <div class="day long"><div class="dn">อาทิตย์</div><div class="dv">Long run-walk 40': (วิ่ง 5' / เดิน 1')<span class="x">🧘 ยืดน่อง + ฝ่าเท้า</span></div></div>
+</article>
+<article class="wk base">
+  <div class="wk-h"><div><b>W3</b><small>16–22 พ.ย.</small></div><div><span class="tag t-base">BASE</span></div></div>
+  <div class="day"><div class="dn">จันทร์</div><div class="dv">เดินเร็ว 30' หรือจ็อกเบา 15'<span class="x">🧘 ดูแลเท้า</span></div></div>
+  <div class="day hard"><div class="dn">อังคาร</div><div class="dv">Interval: <strong>8×(วิ่ง 1' @6:20 / เดิน 2')</strong><span class="x">💪 เวท A</span></div></div>
+  <div class="day"><div class="dn">พุธ</div><div class="dv">Run-walk: 4×(วิ่ง 6' / เดิน 1')</div></div>
+  <div class="day hard"><div class="dn">พฤหัส</div><div class="dv">Tempo: <strong>3×(วิ่ง 7' @6:55 / เดิน 2')</strong><span class="x">💪 เวท B</span></div></div>
+  <div class="day"><div class="dn">ศุกร์</div><div class="dv">จ็อกเบา 15–20' หรือเดินเร็ว<span class="x">🧘 ดูแลเท้า</span></div></div>
+  <div class="day rest"><div class="dn">เสาร์</div><div class="dv">พัก</div></div>
+  <div class="day long"><div class="dn">อาทิตย์</div><div class="dv">Long run-walk 45': (วิ่ง 10' / เดิน 1')<span class="x">🧘 ยืดน่อง + ฝ่าเท้า</span></div></div>
+</article>
+<article class="wk build">
+  <div class="wk-h"><div><b>W4</b><small>23–29 พ.ย.</small></div><div><span class="tag t-build">BUILD</span></div></div>
+  <div class="day"><div class="dn">จันทร์</div><div class="dv">จ็อกเบา 20' @7:45–8:30<span class="x">🧘 ดูแลเท้า</span></div></div>
+  <div class="day hard"><div class="dn">อังคาร</div><div class="dv">Interval: <strong>5×400ม @6:05</strong> พักเดิน 2'<span class="x">💪 เวท A</span></div></div>
+  <div class="day"><div class="dn">พุธ</div><div class="dv">วิ่งต่อเนื่อง 25' ช้าสบาย</div></div>
+  <div class="day hard"><div class="dn">พฤหัส</div><div class="dv">Tempo: <strong>2×8' @6:45</strong> พักเดิน 2'<span class="x">💪 เวท B</span></div></div>
+  <div class="day"><div class="dn">ศุกร์</div><div class="dv">จ็อกเบา 20' (หรือเดินเร็ว)<span class="x">🧘 ดูแลเท้า</span></div></div>
+  <div class="day rest"><div class="dn">เสาร์</div><div class="dv">พัก</div></div>
+  <div class="day long"><div class="dn">อาทิตย์</div><div class="dv"><strong>จุดเช็ค 1:</strong> วิ่งรวด 5 กม. ช้าสบาย ไม่จับเวลา<span class="x">🧘 ยืดน่อง + ฝ่าเท้า</span></div></div>
+</article>
+<article class="wk build">
+  <div class="wk-h"><div><b>W5</b><small>30 พ.ย.–6 ธ.ค.</small></div><div><span class="tag t-build">BUILD</span></div></div>
+  <div class="day"><div class="dn">จันทร์</div><div class="dv">จ็อกเบา 20'<span class="x">🧘 ดูแลเท้า</span></div></div>
+  <div class="day hard"><div class="dn">อังคาร</div><div class="dv">Interval: <strong>6×400ม @6:00</strong> พักเดิน 2'<span class="x">💪 เวท A</span></div></div>
+  <div class="day"><div class="dn">พุธ</div><div class="dv">วิ่ง 30' ช้าสบาย</div></div>
+  <div class="day hard"><div class="dn">พฤหัส</div><div class="dv">Tempo: <strong>2×10' @6:45</strong> พักเดิน 2'<span class="x">💪 เวท B</span></div></div>
+  <div class="day"><div class="dn">ศุกร์</div><div class="dv">จ็อกเบา 20'<span class="x">🧘 ดูแลเท้า</span></div></div>
+  <div class="day rest"><div class="dn">เสาร์</div><div class="dv">พัก</div></div>
+  <div class="day long"><div class="dn">อาทิตย์</div><div class="dv">Long 6 กม. @8:00–8:30<span class="x">🧘 ยืดน่อง + ฝ่าเท้า</span></div></div>
+</article>
+<article class="wk build">
+  <div class="wk-h"><div><b>W6</b><small>7–13 ธ.ค.</small></div><div><span class="tag t-build">BUILD</span></div></div>
+  <p class="wk-note">สัปดาห์ลดปริมาณ (deload)</p>
+  <div class="day"><div class="dn">จันทร์</div><div class="dv">เดินเร็ว 30'<span class="x">🧘 ดูแลเท้า</span></div></div>
+  <div class="day hard"><div class="dn">อังคาร</div><div class="dv">Interval: <strong>4×400ม @6:00</strong> พักเดิน 2'<span class="x">💪 เวท A เบา</span></div></div>
+  <div class="day"><div class="dn">พุธ</div><div class="dv">วิ่ง 25' ช้าสบาย</div></div>
+  <div class="day hard"><div class="dn">พฤหัส</div><div class="dv">Tempo: <strong>15' ต่อเนื่อง @6:50</strong><span class="x">💪 เวท B เบา</span></div></div>
+  <div class="day"><div class="dn">ศุกร์</div><div class="dv">จ็อกเบา 15' หรือพัก<span class="x">🧘 ดูแลเท้า</span></div></div>
+  <div class="day rest"><div class="dn">เสาร์</div><div class="dv">พัก</div></div>
+  <div class="day long"><div class="dn">อาทิตย์</div><div class="dv">Long 5 กม. ช้าสบาย<span class="x">🧘 ยืดน่อง + ฝ่าเท้า</span></div></div>
+</article>
+<article class="wk peak">
+  <div class="wk-h"><div><b>W7</b><small>14–20 ธ.ค.</small></div><div><span class="tag t-peak">PEAK</span></div></div>
+  <div class="day"><div class="dn">จันทร์</div><div class="dv">จ็อกเบา 20'<span class="x">🧘 ดูแลเท้า</span></div></div>
+  <div class="day hard"><div class="dn">อังคาร</div><div class="dv">Interval: <strong>4×800ม @6:10</strong> พักเดิน 2:30<span class="x">💪 เวท A</span></div></div>
+  <div class="day"><div class="dn">พุธ</div><div class="dv">วิ่ง 30' ช้าสบาย</div></div>
+  <div class="day hard"><div class="dn">พฤหัส</div><div class="dv">Race-pace: <strong>3×1 กม. @6:30</strong> พักเดิน 2'<span class="x">💪 เวท B</span></div></div>
+  <div class="day"><div class="dn">ศุกร์</div><div class="dv">จ็อกเบา 20'<span class="x">🧘 ดูแลเท้า</span></div></div>
+  <div class="day rest"><div class="dn">เสาร์</div><div class="dv">พัก</div></div>
+  <div class="day long"><div class="dn">อาทิตย์</div><div class="dv">Long 7 กม. @8:00–8:30<span class="x">🧘 ยืดน่อง + ฝ่าเท้า</span></div></div>
+</article>
+<article class="wk peak">
+  <div class="wk-h"><div><b>W8</b><small>21–27 ธ.ค.</small></div><div><span class="tag t-peak">PEAK</span></div></div>
+  <div class="day"><div class="dn">จันทร์</div><div class="dv">จ็อกเบา 20'<span class="x">🧘 ดูแลเท้า</span></div></div>
+  <div class="day hard"><div class="dn">อังคาร</div><div class="dv">Interval: <strong>5×400ม @5:55</strong> พักเดิน 2'<span class="x">💪 เวท A</span></div></div>
+  <div class="day"><div class="dn">พุธ</div><div class="dv">วิ่ง 25' ช้าสบาย</div></div>
+  <div class="day hard"><div class="dn">พฤหัส</div><div class="dv">Race-pace: <strong>2×1.5 กม. @6:30</strong> พักเดิน 3'<span class="x">💪 เวท B</span></div></div>
+  <div class="day"><div class="dn">ศุกร์</div><div class="dv">จ็อกเบา 15'<span class="x">🧘 ดูแลเท้า</span></div></div>
+  <div class="day rest"><div class="dn">เสาร์</div><div class="dv">พัก</div></div>
+  <div class="day long"><div class="dn">อาทิตย์</div><div class="dv"><strong>จุดเช็ค 2: Time trial 4 กม. @6:30</strong> ใช้ตัดสินเป้าแข่ง<span class="x">🧘 ยืดน่อง + ฝ่าเท้า</span></div></div>
+</article>
+<article class="wk taper">
+  <div class="wk-h"><div><b>W9</b><small>28 ธ.ค.–3 ม.ค.</small></div><div><span class="tag t-taper">TAPER</span></div></div>
+  <div class="day"><div class="dn">จันทร์</div><div class="dv">จ็อกเบา 20'<span class="x">🧘 ดูแลเท้า</span></div></div>
+  <div class="day hard"><div class="dn">อังคาร</div><div class="dv">Interval: <strong>4×400ม @6:00</strong> พักเดิน 2'<span class="x">💪 เวท A แค่ 2 เซ็ต</span></div></div>
+  <div class="day"><div class="dn">พุธ</div><div class="dv">วิ่ง 20' ช้าสบาย</div></div>
+  <div class="day hard"><div class="dn">พฤหัส</div><div class="dv">Race-pace: <strong>2×1 กม. @6:30</strong> พักเดิน 2'<span class="x">เวท: งด</span></div></div>
+  <div class="day"><div class="dn">ศุกร์</div><div class="dv">เดินเร็ว 20'<span class="x">🧘 ดูแลเท้า</span></div></div>
+  <div class="day rest"><div class="dn">เสาร์</div><div class="dv">พัก</div></div>
+  <div class="day long"><div class="dn">อาทิตย์</div><div class="dv">วิ่ง 4 กม. ช้าสบาย + 4 strides<span class="x">🧘 ยืดน่อง + ฝ่าเท้า</span></div></div>
+</article>
+<article class="wk race">
+  <div class="wk-h"><div><b>แข่ง</b><small>4–10 ม.ค.</small></div><div><span class="tag t-race">RACE WEEK</span></div></div>
+  <p class="wk-note">งดเวททั้งสัปดาห์</p>
+  <div class="day"><div class="dn">จันทร์</div><div class="dv">จ็อกเบา 15–20'<span class="x">🧘 ดูแลเท้า</span></div></div>
+  <div class="day hard"><div class="dn">อังคาร</div><div class="dv">จ็อก 10' + <strong>3×1' @6:30</strong> พักเดิน 1:30</div></div>
+  <div class="day"><div class="dn">พุธ</div><div class="dv">พัก หรือเดิน 20'</div></div>
+  <div class="day hard"><div class="dn">พฤหัส</div><div class="dv">จ็อก 15' + 4 strides</div></div>
+  <div class="day rest"><div class="dn">ศุกร์</div><div class="dv">พัก<span class="x">🧘 ดูแลเท้า</span></div></div>
+  <div class="day rest"><div class="dn">เสาร์</div><div class="dv">เดินเบา 10–15' + ยืด · เตรียมของ</div></div>
+  <div class="day long"><div class="dn">อาทิตย์</div><div class="dv"><strong>🏁 วันแข่ง 5K · เป้า 32:30 (6:30/กม.)</strong></div></div>
+</article>
+</div>
+<div class="box">
+  <strong>จุดเช็ค 1 (อา. 29 พ.ย.):</strong> ถ้าวิ่งรวด 5 กม. ได้โดยไม่เจ็บ แปลว่ากลับมามีฐานแล้ว ไปต่อ W5 ได้ · ถ้ายังต้องเดิน ให้ทำ W4 ซ้ำอีก 1 สัปดาห์<br>
+  <strong>จุดเช็ค 2 (อา. 27 ธ.ค.):</strong> ถ้า time trial 4 กม. คุม 6:30 ได้ตลอด ตั้งเป้าแข่ง 32:30 ได้ · ถ้าคุมได้ราว 6:40–6:50 ให้ตั้งเป้าแข่ง 33:30–34:00 แทน แล้วค่อยไล่ sub-32:30 ในรายการถัดไป
+</div>
+<div class="box">
+  <strong>แผนวันแข่ง:</strong> กม.แรกออกตัว 6:35 อย่าเร็วเกินเพราะตื่นเต้น · กม. 2–4 คุม 6:30 · กม.สุดท้ายเร่งเท่าที่ไหว
+</div>
+</section>
+
+<section class="sec">
+<h2><span>03</span> วอร์มอัพ (ก่อนซ้อมทุกวัน)</h2>
+<table>
+  <tr><th>ท่า</th><th>จำนวน</th><th>วิธีทำ</th></tr>
+  <tr><td>เดินเร็ว</td><td>5–8 นาที</td><td>เริ่มเบาแล้วค่อยเร็วขึ้น ให้ตัวอุ่น</td></tr>
+  <tr><td>หมุนข้อเท้า (ankle circles)</td><td>10 รอบ/ข้าง</td><td>ยกเท้าลอย หมุนช้าๆ ทั้งตามและทวนเข็ม</td></tr>
+  <tr><td>Leg swing หน้า-หลัง</td><td>10 ครั้ง/ขา</td><td>จับผนัง แกว่งขาสบายๆ ไม่เหวี่ยงแรง</td></tr>
+  <tr><td>Walking lunge</td><td>6 ครั้ง/ขา</td><td>ก้าวยาว ย่อเข่าหลังลงต่ำ ลำตัวตั้งตรง</td></tr>
+  <tr><td>เขย่งปลายเท้า (calf raise)</td><td>10 ครั้ง</td><td>ยืนสองขา ขึ้น-ลงช้าๆ กระตุ้นน่องและข้อเท้า</td></tr>
+  <tr><td>Strides (เฉพาะวันเร็ว ตั้งแต่ W4)</td><td>2–4×60 เมตร</td><td>เร่งจากจ็อกเป็นเร็วสบายๆ แล้วผ่อน เดินกลับ</td></tr>
+</table>
+</section>
+
+<section class="sec">
+<h2><span>04</span> คูลดาวน์ (หลังซ้อมทุกวัน)</h2>
+<table>
+  <tr><th>ท่า</th><th>เวลา</th><th>วิธีทำ</th></tr>
+  <tr><td>เดินผ่อน</td><td>5 นาที</td><td>เดินช้าจนหายใจปกติ</td></tr>
+  <tr><td>ยืดน่อง (เข่าตรง + งอเข่า)</td><td>30 วิ×2/ขา</td><td>ดันผนัง ขาหลังเหยียดตรงก่อน แล้วงอเข่าเล็กน้อย</td></tr>
+  <tr><td>ยืดฝ่าเท้า</td><td>30 วิ/ข้าง</td><td>นั่งไขว่ห้าง ใช้มือดึงนิ้วเท้าเข้าหาตัว รู้สึกตึงใต้ฝ่าเท้า</td></tr>
+  <tr><td>Hamstring stretch</td><td>30 วิ/ขา</td><td>วางส้นบนที่ต่ำ โน้มตัวจากสะโพก หลังตรง</td></tr>
+  <tr><td>Quad stretch</td><td>30 วิ/ขา</td><td>ยืนจับข้อเท้าดึงส้นเข้าหาก้น</td></tr>
+  <tr><td>Hip flexor stretch</td><td>30 วิ/ขา</td><td>คุกเข่าข้างเดียว ดันสะโพกไปด้านหน้า</td></tr>
+  <tr><td>กลิ้งฝ่าเท้า</td><td>1–2 นาที/ข้าง</td><td>กลิ้งฝ่าเท้ากับลูกบอลหรือขวดน้ำแช่เย็น กดพอตึง ไม่ให้เจ็บ</td></tr>
+</table>
+</section>
+
+<section class="sec">
+<h2><span>05</span> เวทน้ำหนักตัว + ดูแลเท้า (ไม่ใช้อุปกรณ์)</h2>
+<p class="note">ทำ <strong>หลังวิ่ง</strong> วันอังคาร (เวท A) และพฤหัส (เวท B) · พัก 45–60 วินาทีระหว่างเซ็ต · ถ้าท่าไหนเจ็บข้อเท้าหรือฝ่าเท้า ให้ข้ามท่านั้น</p>
+<h3>เวท A — อังคาร (ขา/สะโพก/แกนกลาง)</h3>
+<table>
+  <tr><th>ท่า</th><th>เซ็ต × ครั้ง</th><th>จุดสังเกต</th></tr>
+  <tr><td>Bodyweight squat</td><td>3 × 12</td><td>ส้นเท้าติดพื้น เข่าชี้ไปทางเดียวกับปลายเท้า</td></tr>
+  <tr><td>Glute bridge</td><td>3 × 15</td><td>นอนหงาย ยกสะโพกค้าง 1 วินาที บีบก้น</td></tr>
+  <tr><td>Reverse lunge</td><td>2 × 8 ต่อขา</td><td>ก้าวถอยหลัง ลงช้า ทรงตัวให้นิ่ง</td></tr>
+  <tr><td>Calf raise สองขา</td><td>3 × 15</td><td>ขึ้น 1 วิ ลง 3 วิ บนพื้นราบ</td></tr>
+  <tr><td>Plank</td><td>3 × 20–30 วินาที</td><td>ลำตัวตรง ไม่แอ่นหลัง</td></tr>
+</table>
+<h3>เวท B — พฤหัส (ขาเดียว/การทรงตัว/ข้อเท้า)</h3>
+<table>
+  <tr><th>ท่า</th><th>เซ็ต × ครั้ง</th><th>จุดสังเกต</th></tr>
+  <tr><td>Single-leg glute bridge</td><td>2 × 10 ต่อขา</td><td>ยกขาข้างหนึ่ง สะโพกไม่เอียง</td></tr>
+  <tr><td>Step-up บนขั้นบันได</td><td>2 × 10 ต่อขา</td><td>ใช้ขั้นต่ำก่อน ดันขึ้นด้วยขาที่อยู่บนขั้น</td></tr>
+  <tr><td>Single-leg balance</td><td>3 × 30 วินาที ต่อข้าง</td><td>ยืนขาเดียว ถ้าง่ายแล้วให้หลับตา</td></tr>
+  <tr><td>Side plank</td><td>2 × 20 วินาที ต่อข้าง</td><td>เริ่มจากคุกเข่าได้</td></tr>
+  <tr><td>Bird dog</td><td>2 × 10 ต่อข้าง</td><td>เหยียดแขน-ขาตรงข้าม ค้าง 2 วิ</td></tr>
+</table>
+<h3>ดูแลเท้า — จันทร์และศุกร์ (10 นาที)</h3>
+<table>
+  <tr><th>ท่า</th><th>จำนวน</th><th>วิธีทำ</th></tr>
+  <tr><td>ขยุ้มผ้าด้วยนิ้วเท้า (towel scrunch)</td><td>2 × 1 นาที ต่อข้าง</td><td>วางผ้าบนพื้น ใช้นิ้วเท้าดึงผ้าเข้าหาตัว</td></tr>
+  <tr><td>ยกนิ้วโป้ง / ยกนิ้วที่เหลือสลับกัน</td><td>2 × 10</td><td>ฝึกกล้ามเนื้อเล็กในฝ่าเท้า</td></tr>
+  <tr><td>เขียนตัวอักษรด้วยข้อเท้า</td><td>A–Z 1 รอบต่อข้าง</td><td>นั่ง ยกเท้า ใช้ปลายเท้าเขียนตัวอักษรในอากาศ</td></tr>
+  <tr><td>Calf raise ขาเดียว (จับผนัง)</td><td>2 × 10 ต่อข้าง</td><td>เริ่มตั้งแต่ W4 ถ้าไม่เจ็บ</td></tr>
+  <tr><td>กลิ้งฝ่าเท้า + ยืดน่อง</td><td>1–2 นาที/ข้าง</td><td>ทำต่อท้ายทุกครั้ง</td></tr>
+</table>
+</section>
+
+<section class="sec">
+<h2><span>06</span> ฟื้นฟู + กฎเมื่อเจ็บ</h2>
+<div class="box alert">
+  <strong>กฎหยุด:</strong> ระหว่างวิ่ง เจ็บไม่เกิน 3 จาก 10 และไม่แย่ลงถือว่าไปต่อได้ ·
+  ถ้าเจ็บเกิน 3/10 วิ่งกะเผลก หรือเจ็บเพิ่มขึ้นเรื่อยๆ ให้หยุดแล้วเดินกลับ ·
+  เช้าวันรุ่งขึ้นถ้าข้อเท้าบวมหรือเจ็บฝ่าเท้าก้าวแรกมากกว่าปกติ ให้พักวันนั้น ประคบเย็น ยกเท้าสูง ·
+  เป็นซ้ำเกิน 1 สัปดาห์ ให้พบนักกายภาพหรือแพทย์
+</div>
+<table>
+  <tr><th>รายการ</th><th>วัน</th><th>รายละเอียด</th></tr>
+  <tr><td>พักเต็ม</td><td>เสาร์</td><td>ไม่วิ่ง ให้ร่างกายพร้อมสำหรับ long run วันอาทิตย์</td></tr>
+  <tr><td>Active recovery</td><td>จันทร์ + ศุกร์</td><td>เดินเร็วหรือจ็อกเบา แทนการวิ่งเต็ม</td></tr>
+  <tr><td>ดูแลเท้า</td><td>จันทร์ + ศุกร์</td><td>ท่าในหัวข้อ 05 ราว 10 นาที</td></tr>
+  <tr><td>ยืดเหยียด</td><td>ทุกวันหลังวิ่ง</td><td>ดูหัวข้อคูลดาวน์</td></tr>
+  <tr><td>Deload</td><td>W6</td><td>ลดปริมาณลงเพื่อให้ร่างกายซ่อมแซมก่อนเข้า peak</td></tr>
+  <tr><td>การนอน</td><td>ทุกคืน</td><td>7–8 ชม.</td></tr>
+  <tr><td>รองเท้า</td><td>ก่อนเริ่ม W1</td><td>ถ้าคู่เดิมใช้มานานหรือพื้นสึก ควรเปลี่ยน เพราะมีผลกับข้อเท้าและฝ่าเท้า</td></tr>
+  <tr><td>พื้นที่วิ่ง</td><td>ทุกครั้ง</td><td>เลือกพื้นเรียบ เลี่ยงทางลาดชันและพื้นขรุขระช่วงแรก</td></tr>
+</table>
+</section>
+
+<section class="sec">
+<h2><span>07</span> คำแนะนำโภชนาการ</h2>
+<table>
+  <tr><th>ช่วงเวลา</th><th>คำแนะนำ</th></tr>
+  <tr><td><strong>ก่อนซ้อม</strong> (1–2 ชม.)</td><td>ของว่างคาร์บย่อยง่าย เช่น กล้วย ขนมปัง โยเกิร์ต · ซ้อมเช้าตรู่กินกล้วยครึ่งลูกก็พอ</td></tr>
+  <tr><td><strong>ระหว่างซ้อม</strong></td><td>ซ้อมไม่เกิน 60 นาที ดื่มน้ำเปล่าพอ ไม่ต้องใช้เจล</td></tr>
+  <tr><td><strong>หลังซ้อม</strong> (ภายใน 1 ชม.)</td><td>คาร์บ + โปรตีน เช่น นมช็อกโกแลต ข้าว+ไข่/ไก่ โยเกิร์ต+ผลไม้</td></tr>
+  <tr><td><strong>รายวัน</strong></td><td>อาหารครบหมู่ โปรตีนทุกมื้อ ผักผลไม้หลากสี · กินอาหารที่มีธาตุเหล็กและแคลเซียม เช่น เนื้อแดง ผักใบเขียว นม</td></tr>
+  <tr><td><strong>เติมน้ำ</strong></td><td>ดื่มสม่ำเสมอทั้งวัน ปัสสาวะสีเหลืองอ่อน</td></tr>
+  <tr><td><strong>ก่อนวันแข่ง</strong></td><td>กินปกติ ไม่ต้อง carb loading สำหรับ 5K · งดของใหม่และของมัน</td></tr>
+  <tr><td><strong>เช้าวันแข่ง</strong> (2–3 ชม.ก่อนออกตัว)</td><td>อาหารที่คุ้นเคย ย่อยง่าย เช่น ขนมปัง+กล้วย ข้าวต้ม · จิบน้ำ</td></tr>
+  <tr><td><strong>หลังแข่ง</strong></td><td>เติมน้ำ คาร์บ และโปรตีน ภายใน 1 ชม.</td></tr>
+</table>
+</section>
+
+<section class="sec">
+<h2><span>08</span> วิธีอ่านตาราง</h2>
+<div class="box">
+  <strong>สูตร:</strong> <code>[จำนวนเที่ยว] × [เวลา/ระยะ] @[pace] พัก [เวลาพัก]</code><br>
+  ตัวอย่าง run-walk: <code>8×(วิ่ง 2' / เดิน 1')</code> = วิ่ง 2 นาที สลับเดิน 1 นาที ทำ 8 รอบ<br>
+  ตัวอย่าง interval: <code>5×400ม @6:05 พักเดิน 2'</code> = วิ่ง 400 ม. ที่ pace 6:05/กม. 5 เที่ยว เดินพัก 2 นาทีระหว่างเที่ยว
+</div>
+<table>
+  <tr><th>เครื่องหมาย</th><th>ความหมาย</th><th>ตัวอย่าง</th></tr>
+  <tr><td><strong>×</strong></td><td>จำนวนรอบที่ทำซ้ำ</td><td><code>6×(วิ่ง 1' / เดิน 2')</code> = ทำ 6 รอบ</td></tr>
+  <tr><td><strong>'</strong></td><td>นาที</td><td><code>วิ่ง 3'</code> = วิ่ง 3 นาที</td></tr>
+  <tr><td><strong>"</strong></td><td>วินาที</td><td><code>3×1'</code> = 3 รอบ รอบละ 1 นาที</td></tr>
+  <tr><td><strong>ม</strong></td><td>เมตร</td><td><code>400ม</code> = 400 เมตร</td></tr>
+  <tr><td><strong>@</strong></td><td>ที่ pace (นาที:วินาที ต่อ 1 กม.)</td><td><code>@6:30</code> = 6 นาที 30 วินาที/กม.</td></tr>
+  <tr><td><strong>🧘</strong></td><td>ยืดเหยียดหรือดูแลเท้าวันนั้น</td><td>ดูหัวข้อ 04–05</td></tr>
+</table>
+</section>
+
+<footer>
+  แผนนี้ตั้งอยู่บนข้อมูลว่ากลับมาวิ่งได้ 2 สัปดาห์แบบวิ่งสลับเดิน และเคยมีอาการข้อเท้าบวม/เจ็บฝ่าเท้า · ปรับตามอาการจริงเสมอ<br>
+  สร้างเมื่อ 5 พ.ย. 2569 · เป้าหมาย 5 กม. Sub-32:30 · วันแข่ง อาทิตย์ 10 ม.ค. 2570
+</footer>
+</div>
+</body>
+</html>
