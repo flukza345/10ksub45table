@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>แผนฝึกวิ่ง 10K Sub-45 | 9 สัปดาห์ (ปรับตาม Garmin)</title>
+<style>
+  :root {
+    --bg: #ffffff; --fg: #1a1a1a; --muted: #6b7280; --accent: #1d4ed8;
+    --surface: #f3f4f6; --border: #d1d5db; --head: #eef2ff;
+    --base: #16a34a; --build: #ca8a04; --peak: #dc2626; --taper: #9333ea;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  body {
+    font-family: -apple-system, "Segoe UI", "Sarabun", system-ui, sans-serif;
+    color: var(--fg); background: var(--bg); line-height: 1.6;
+    max-width: 1000px; margin: 0 auto; padding: 24px 20px 60px;
+  }
+  header { text-align: center; border-bottom: 3px solid var(--accent); padding-bottom: 16px; margin-bottom: 8px; }
+  header h1 { margin: 0 0 4px; font-size: 1.7rem; color: var(--accent); line-height: 1.25; }
+  header .sub { color: var(--muted); font-size: 0.95rem; }
+  h2 { font-size: 1.3rem; color: var(--accent); border-bottom: 2px solid var(--border); padding-bottom: 6px; margin: 34px 0 12px; }
+  h3 { font-size: 1.05rem; margin: 20px 0 8px; }
+  .meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 16px 0; }
+  .meta-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; }
+  .meta-card .k { font-size: 0.75rem; color: var(--muted); }
+  .meta-card .v { font-size: 1.05rem; font-weight: 700; }
+  .box { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 12px 16px; margin: 14px 0; }
+  /* ห่อตารางให้เลื่อนแนวนอนได้บนจอแคบ ไม่ดันทั้งหน้า */
+  .table-wrap { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 10px 0 18px; border-radius: 8px; }
+  .table-wrap table { margin: 0; }
+  table { width: 100%; border-collapse: collapse; margin: 10px 0 18px; font-size: 0.85rem; }
+  th, td { border: 1px solid var(--border); padding: 7px 9px; text-align: left; vertical-align: top; }
+  th { background: var(--head); font-weight: 700; }
+  tr:nth-child(even) td { background: #fafafa; }
+  /* ตารางฝึก 9 สัปดาห์ มี 7 วัน -> ตั้ง min-width ให้เลื่อนแทนการบีบจนล้น */
+  .schedule { min-width: 720px; }
+  .tag { display: inline-block; font-size: 0.68rem; padding: 2px 8px; border-radius: 10px; font-weight: 700; color: #fff; }
+  .t-base { background: var(--base); } .t-build { background: var(--build); }
+  .t-peak { background: var(--peak); } .t-taper { background: var(--taper); }
+  .phase-base td:first-child { border-left: 4px solid var(--base); }
+  .phase-build td:first-child { border-left: 4px solid var(--build); }
+  .phase-peak td:first-child { border-left: 4px solid var(--peak); }
+  .phase-taper td:first-child { border-left: 4px solid var(--taper); }
+  .hl { background: #dcfce7 !important; }
+  .note { font-size: 0.82rem; color: var(--muted); margin: 8px 0; }
+  .scroll-hint { display: none; font-size: 0.75rem; color: var(--muted); font-style: italic; margin: 4px 0 2px; }
+  .warn { background: #fef2f2; border-left: 4px solid var(--peak); padding: 10px 14px; border-radius: 6px; font-size: 0.85rem; margin: 12px 0; }
+  footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 0.78rem; color: var(--muted); text-align: center; }
+
+  /* ===== Responsive: มือถือ ===== */
+  @media (max-width: 640px) {
+    body { padding: 16px 12px 44px; line-height: 1.55; }
+    header h1 { font-size: 1.32rem; }
+    header .sub { font-size: 0.82rem; }
+    h2 { font-size: 1.12rem; margin: 26px 0 10px; }
+    h3 { font-size: 0.98rem; }
+    .meta-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .meta-card { padding: 8px 10px; }
+    .meta-card .v { font-size: 0.95rem; }
+    .box, .warn { padding: 10px 12px; font-size: 0.8rem; }
+    table { font-size: 0.8rem; }
+    th, td { padding: 6px 7px; }
+    /* ตารางทั่วไป (2-3 คอลัมน์) ไม่ต้อง min-width - พอดีจอ; เฉพาะ .schedule เลื่อนได้ */
+    .scroll-hint { display: block; }
+    .note { font-size: 0.78rem; }
+    footer { font-size: 0.72rem; }
+  }
+  @media (max-width: 400px) {
+    .meta-grid { grid-template-columns: 1fr; }
+    header h1 { font-size: 1.2rem; }
+  }
+
+  @media print {
+    body { max-width: 100%; padding: 0; font-size: 11px; }
+    h2 { page-break-after: avoid; }
+    .table-wrap { overflow: visible; }
+    .schedule { min-width: 0; }
+    table { page-break-inside: avoid; font-size: 10px; }
+    tr { page-break-inside: avoid; }
+    .scroll-hint { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>แผนฝึกวิ่ง 10 กม. เป้า Sub-45 นาที</h1>
+  <div class="sub">9 สัปดาห์ · 5 พ.ย. 2569 → วันแข่ง เสาร์ 10 ม.ค. 2570 · ปรับตามข้อมูล Garmin จริง</div>
+</header>
+
+<div class="warn">
+  <strong>⚠️ จุดที่ต้องให้ความสำคัญ — การนอน:</strong> เป้า <strong>7.5–8 ชม./คืน</strong>
+  การนอนคือตัวฟื้นฟูที่ให้ผลมากที่สุด ถ้านอนพอ เวลาจะดีขึ้นเองโดยไม่ต้องซ้อมหนักขึ้น
+</div>
+
+<h2>📊 Pace เป้าหมาย</h2>
+<div class="box">
+  <strong>Race pace เป้าใหม่ = 4:25/กม. (= 44:10)</strong> ตั้งเผื่อ buffer ให้ sub-45 ชัวร์
+  (PB 10K ปัจจุบัน 46:56 ห่างเป้าเพียง ~2 นาที)
+</div>
+<table>
+  <tr><th>ประเภท</th><th>Pace (นาที/กม.)</th><th>อ้างอิง / ใช้ตอนไหน</th></tr>
+  <tr><td><strong>Race pace (RP)</strong></td><td><strong>4:25</strong></td><td>เป้าแข่ง = 44:10 (buffer ก่อน 45:00)</td></tr>
+  <tr><td>Interval / VO₂max (I)</td><td>3:55–4:05</td><td>ใกล้ 5K pace (4:12) — ความเร็วมีเหลือ</td></tr>
+  <tr><td>Threshold / Tempo (T)</td><td>4:30–4:40</td><td>หัวใจของแผน ยกเพดานความทน ค้างได้ 20–40 นาที</td></tr>
+  <tr><td>Easy (E)</td><td>5:45–6:30</td><td>pace ฟื้นฟูที่ทำอยู่แล้ว (6:27) ถูกต้อง</td></tr>
+  <tr><td>Long run (L)</td><td>5:20–5:50</td><td>base แน่น เริ่มกลางช่วง easy ได้</td></tr>
+</table>
+
+<h2>🗓️ ตารางฝึก 9 สัปดาห์</h2>
+<p class="note">
+  <strong>จันทร์</strong> Easy (สั้น/ช้า) + roll · <strong>อังคาร</strong> Interval + เวท A · <strong>พุธ</strong> Easy ·
+  <strong>พฤหัส</strong> Tempo + เวท B · <strong>ศุกร์</strong> Easy เบา (คลายขา) ·
+  <strong>เสาร์</strong> พัก · <strong>อาทิตย์</strong> Long run · ปริมาณ ~43–51 กม./สัปดาห์
+</p>
+<p class="note">💡 เวททำ <strong>ต่อท้ายวันวิ่งเร็วเท่านั้น</strong> (เวท A หลัง Interval วันอังคาร, เวท B หลัง Tempo วันพฤหัส) หลักการ "วันหนักรวมกัน" ให้วันอื่นขาสด · 🧘 = recovery</p>
+<p class="scroll-hint">← เลื่อนตารางแนวนอนเพื่อดูครบทุกวัน →</p>
+<div class="table-wrap">
+<table class="schedule">
+  <tr>
+    <th>สัปดาห์ / เฟส</th><th>จันทร์ (Easy)</th><th>อังคาร (Interval + 💪A)</th><th>พุธ (Easy)</th><th>พฤหัส (Tempo + 💪B)</th><th>ศุกร์ (Easy) / เสาร์ (พัก)</th><th>อาทิตย์ (Long)</th>
+  </tr>
+  <tr class="phase-base">
+    <td><strong>W1</strong> 5–11 พ.ย.<br><span class="tag t-base">BASE</span></td>
+    <td>Easy 4–5 กม. @6:30<br>🧘 roll + stretch</td>
+    <td>Interval: <strong>6×800ม @4:00</strong> พัก 2'<br>💪 เวท A</td>
+    <td>Easy 7 กม. @6:00</td>
+    <td>Tempo: <strong>2×10' @4:40</strong> พัก 2'<br>💪 เวท B</td>
+    <td><span class="rest">ศ.</span> Easy 3–5 กม. @6:30 (คลายขา)<br><span class="rest">ส. พัก</span></td>
+    <td class="hl">Long 12 กม. @5:45<br>🧘 roll</td>
+  </tr>
+  <tr class="phase-base">
+    <td><strong>W2</strong> 12–18 พ.ย.<br><span class="tag t-base">BASE</span></td>
+    <td>Easy 4–5 กม. @6:30<br>🧘 roll + stretch</td>
+    <td>Interval: <strong>5×1000ม @4:00</strong> พัก 2:30<br>💪 เวท A</td>
+    <td>Easy 7 กม.</td>
+    <td>Tempo: <strong>1×25' @4:40</strong> ต่อเนื่อง<br>💪 เวท B</td>
+    <td><span class="rest">ศ.</span> Easy 3–5 กม. @6:30 (คลายขา)<br><span class="rest">ส. พัก</span></td>
+    <td class="hl">Long 13 กม. @5:40<br>🧘 roll</td>
+  </tr>
+  <tr class="phase-base">
+    <td><strong>W3</strong> 19–25 พ.ย.<br><span class="tag t-base">BASE</span></td>
+    <td>Easy 5 กม. @6:30<br>🧘 roll + stretch</td>
+    <td>Interval: <strong>6×1000ม @4:00</strong> พัก 2'<br>💪 เวท A</td>
+    <td>Easy 8 กม.</td>
+    <td>Tempo: <strong>2×15' @4:35</strong> พัก 3'<br>💪 เวท B</td>
+    <td><span class="rest">ศ.</span> Easy 3–5 กม. @6:30 (คลายขา)<br><span class="rest">ส. พัก</span></td>
+    <td class="hl">Long 14 กม. @5:35<br>🧘 roll</td>
+  </tr>
+  <tr class="phase-build">
+    <td><strong>W4</strong> 26 พ.ย.–2 ธ.ค.<br><span class="tag t-build">BUILD</span></td>
+    <td>Easy 5 กม. @6:30<br>🧘 roll + stretch</td>
+    <td>Interval: <strong>5×1200ม @4:05</strong> พัก 2:30<br>💪 เวท A</td>
+    <td>Easy 8 กม.</td>
+    <td>Threshold: <strong>30' @4:35</strong> ต่อเนื่อง<br>💪 เวท B</td>
+    <td><span class="rest">ศ.</span> Easy 3–5 กม. @6:30 (คลายขา)<br><span class="rest">ส. พัก</span></td>
+    <td class="hl">Long 15 กม. (5 กม.ท้าย @4:40)<br>🧘 roll</td>
+  </tr>
+  <tr class="phase-build">
+    <td><strong>W5</strong> 3–9 ธ.ค.<br><span class="tag t-build">BUILD</span></td>
+    <td>Easy 5 กม. @6:30<br>🧘 roll + stretch</td>
+    <td>Interval: <strong>4×1500ม @4:05</strong> พัก 3'<br>💪 เวท A</td>
+    <td>Easy 8 กม.</td>
+    <td>Tempo: <strong>3×10' @4:30</strong> พัก 2'<br>💪 เวท B</td>
+    <td><span class="rest">ศ.</span> Easy 3–5 กม. @6:30 (คลายขา)<br><span class="rest">ส. พัก</span></td>
+    <td class="hl">Long 16 กม. @5:30<br>🧘 roll</td>
+  </tr>
+  <tr class="phase-build">
+    <td><strong>W6</strong> 10–16 ธ.ค.<br><span class="tag t-build">BUILD</span> <em>(deload)</em></td>
+    <td>Easy 4 กม. @6:30<br>🧘 roll + stretch</td>
+    <td>Interval: <strong>5×800ม @3:55</strong> พัก 2'<br>💪 เวท A เบา</td>
+    <td>Easy 6 กม.</td>
+    <td>Tempo: <strong>2×10' @4:35</strong> พัก 2'<br>💪 เวท B เบา</td>
+    <td><span class="rest">ศ.</span> Easy 3–5 กม. @6:30 (คลายขา)<br><span class="rest">ส. พัก</span></td>
+    <td class="hl">Long 11 กม. @5:40 (ลดระยะ)<br>🧘 roll</td>
+  </tr>
+  <tr class="phase-peak">
+    <td><strong>W7</strong> 17–23 ธ.ค.<br><span class="tag t-peak">PEAK</span></td>
+    <td>Easy 5 กม. @6:30<br>🧘 roll + stretch</td>
+    <td>Interval: <strong>5×1000ม @4:00</strong> พัก 2'<br>💪 เวท A</td>
+    <td>Easy 8 กม.</td>
+    <td>Race-pace: <strong>5×1200ม @4:25 (RP)</strong> พัก 90"<br>💪 เวท B</td>
+    <td><span class="rest">ศ.</span> Easy 3–5 กม. @6:30 (คลายขา)<br><span class="rest">ส. พัก</span></td>
+    <td class="hl">Long 15 กม. (6 กม.ท้าย @4:30)<br>🧘 roll</td>
+  </tr>
+  <tr class="phase-peak">
+    <td><strong>W8</strong> 24–30 ธ.ค.<br><span class="tag t-peak">PEAK</span></td>
+    <td>Easy 5 กม. @6:30<br>🧘 roll + stretch</td>
+    <td>Interval: <strong>3×1200ม @4:00</strong> พัก 2:30<br>💪 เวท A</td>
+    <td>Easy 7 กม.</td>
+    <td>Race-pace: <strong>6×1000ม @4:25 (RP)</strong> พัก 75"<br>💪 เวท B</td>
+    <td><span class="rest">ศ.</span> Easy 3–5 กม. @6:30 (คลายขา)<br><span class="rest">ส. พัก</span></td>
+    <td class="hl"><strong>Time trial 8 กม. @4:25</strong> (ซ้อมแข่งจริง)<br>🧘 roll</td>
+  </tr>
+  <tr class="phase-taper">
+    <td><strong>W9</strong> 31 ธ.ค.–10 ม.ค.<br><span class="tag t-taper">TAPER</span></td>
+    <td>(29 ธ.ค.) Easy 4 กม.<br>🧘 stretch</td>
+    <td>(31 ธ.ค.) <strong>4×400ม @3:55</strong> พัก 90"<br>เวท: งด</td>
+    <td>(1 ม.ค.) Easy 5 กม.</td>
+    <td>(2 ม.ค.) <strong>2 กม. @4:25 + 4 strides</strong><br>เวท: งด</td>
+    <td><span class="rest">ศ.</span> Easy 3–5 กม. @6:30 (คลายขา)<br><span class="rest">ส. พัก</span></td>
+    <td class="hl">(5 ม.ค.) Easy 5 กม.<br>🧘 stretch</td>
+  </tr>
+</table>
+</div>
+<p class="note">
+  <strong>สัปดาห์แข่ง (6–10 ม.ค.):</strong> จ. Easy 4 กม. · <strong>อ.(7)</strong> 2 กม.อุ่น + 3×1 นาที @RP + คูล ·
+  พ. พัก · <strong>พฤ.(9)</strong> Easy 4 กม. + 4 strides · ศ. พัก · <strong>ส. 10 ม.ค. วันแข่ง 🏁</strong> · เวทงดทั้งสัปดาห์
+</p>
+<p class="note">
+  ⚠️ <strong>หมายเหตุ taper:</strong> วันแข่งคือเสาร์ 10 ม.ค. ตารางสัปดาห์สุดท้ายอิงวันที่จริง (ตามวงเล็บ) ·
+  long run ก้อนสุดท้ายคือ Time trial 8 กม. ของ W8 (อา. 28 ธ.ค.) หลังจากนั้นเข้า taper ไม่มี long run อีก
+</p>
+
+<h2>🔥 วอร์มอัพ (ก่อนซ้อมทุกวัน)</h2>
+<h3>ขั้นที่ 1 — จ็อกเบา</h3>
+<table>
+  <tr><th>รายการ</th><th>วันเร็ว/แข่ง</th><th>วัน easy/long</th></tr>
+  <tr><td>จ็อกช้ามาก @6:30–7:00</td><td>10–12 นาที</td><td>5 นาที (หรือเริ่มช้าแล้วค่อยเร่ง)</td></tr>
+</table>
+<h3>ขั้นที่ 2 — Dynamic stretching (เน้นวันเร็ว) ทำช้าๆ มีจังหวะ ไม่ค้าง</h3>
+<table>
+  <tr><th>ท่า</th><th>จำนวน</th><th>วิธีทำ</th></tr>
+  <tr><td>Leg swing หน้า-หลัง</td><td>12 ครั้ง/ขา</td><td>จับผนัง แกว่งขาหน้า-หลังสุดช่วง ควบคุมจังหวะ</td></tr>
+  <tr><td>Leg swing ซ้าย-ขวา</td><td>12 ครั้ง/ขา</td><td>แกว่งขาข้ามหน้าลำตัว เปิดสะโพก</td></tr>
+  <tr><td>Walking lunge + บิดตัว</td><td>8 ครั้ง/ขา</td><td>ก้าวลันจ์แล้วบิดลำตัวไปด้านขาหน้า</td></tr>
+  <tr><td>Hip opener (เตะเข่าเปิดออก)</td><td>8 ครั้ง/ขา</td><td>ยกเข่าขึ้นแล้วเปิดออกข้าง เป็นวงกลม</td></tr>
+  <tr><td>Ankle circles + calf raise เดิน</td><td>10 ครั้ง/ข้าง</td><td>หมุนข้อเท้า + เขย่งเดินกระตุ้นน่อง</td></tr>
+</table>
+<h3>ขั้นที่ 3 — Running drills (เฉพาะวันเร็ว อ./พฤ. และวันแข่ง)</h3>
+<table>
+  <tr><th>ท่า</th><th>จำนวน</th><th>วิธีทำ</th></tr>
+  <tr><td>A-skip</td><td>2×20 เมตร</td><td>สกิปยกเข่าสูง จังหวะเร็ว เท้าลงกลางฝ่าเท้า</td></tr>
+  <tr><td>B-skip</td><td>2×20 เมตร</td><td>เหมือน A-skip แต่เหยียดขาออกก่อนตวัดลง</td></tr>
+  <tr><td>High knees</td><td>2×15 เมตร</td><td>ยกเข่าสูงระดับสะโพก แขนแกว่งเร็ว</td></tr>
+  <tr><td>Butt kicks</td><td>2×15 เมตร</td><td>ตวัดส้นแตะก้น ลำตัวตั้งตรง</td></tr>
+  <tr><td><strong>Strides (เร่งความเร็ว)</strong></td><td>4–6×80 เมตร</td><td>เร่งจาก easy → ~95% ใน 80 ม. แล้วผ่อน เดินกลับพักเต็ม ปลุกระบบประสาทก่อน interval/แข่ง</td></tr>
+</table>
+
+<h2>❄️ คูลดาวน์ (หลังซ้อมทุกวัน)</h2>
+<h3>ขั้นที่ 1 — จ็อก/เดินผ่อน</h3>
+<table>
+  <tr><th>วันเร็ว/long</th><th>วัน easy</th></tr>
+  <tr><td>จ็อกช้า 5–10 นาที @6:30+ แล้วเดิน 3 นาที ให้ HR ลงต่ำกว่า 120</td><td>เดินผ่อน 3–5 นาที</td></tr>
+</table>
+<h3>ขั้นที่ 2 — Static stretching (ค้างท่าละ 30 วินาที/ข้าง ทำหลังซ้อมที่กล้ามเนื้อยังอุ่น)</h3>
+<table>
+  <tr><th>ท่า</th><th>เวลา</th><th>วิธีทำ</th></tr>
+  <tr><td>Standing quad stretch</td><td>30 วิ/ขา</td><td>ยืนจับข้อเท้าดึงส้นแตะก้น เข่าชิดกัน เกร็งก้นเล็กน้อย</td></tr>
+  <tr><td>Hamstring stretch</td><td>30 วิ/ขา</td><td>วางส้นบนที่ต่ำ โน้มตัวจากสะโพก หลังตรง</td></tr>
+  <tr><td>Calf stretch (ตรง + งอเข่า)</td><td>30 วิ×2/ขา</td><td>ดันผนัง ขาหลังเหยียด (gastroc) แล้วงอเข่าเล็กน้อย (soleus)</td></tr>
+  <tr><td>Hip flexor stretch</td><td>30 วิ/ขา</td><td>คุกเข่าข้างเดียว ดันสะโพกไปหน้า รู้สึกตึงหน้าสะโพกขาหลัง</td></tr>
+  <tr><td>Figure-4 / glute stretch</td><td>30 วิ/ขา</td><td>นอนหงายไขว่ขาเลข 4 ดึงต้นขาเข้าหาอก คลายก้น/สะโพก</td></tr>
+  <tr><td>IT band / standing cross</td><td>30 วิ/ข้าง</td><td>ไขว้ขาเอนตัวด้านตรงข้าม ยืดด้านข้างสะโพก</td></tr>
+  <tr><td>โฟมโรลเลอร์ (ถ้ามี)</td><td>1–2 นาที/จุด</td><td>กลิ้งน่อง quad IT band หลังจากยืด</td></tr>
+</table>
+
+<h2>💪 โปรแกรมเวท (ดัมเบล 5 กก.×2 + ยางยืด 2 เส้น)</h2>
+<p class="note">ทำ <strong>หลังวิ่งเร็ว</strong> ในวันอังคาร (เวท A) และพฤหัส (เวท B) เท่านั้น เพื่อให้วันอื่นขาสด · พัก 60–90 วินาทีระหว่างเซ็ต</p>
+<h3>เวท A — อังคาร (สะโพก/ก้น/แกนกลาง)</h3>
+<table>
+  <tr><th>ท่า</th><th>อุปกรณ์</th><th>เซ็ต × ครั้ง</th></tr>
+  <tr><td>Goblet squat (อุ้มดัมเบล 1 ลูก)</td><td>ดัมเบล 5 กก.</td><td>3 × 12</td></tr>
+  <tr><td>Romanian deadlift (ถือ 2 ลูก)</td><td>ดัมเบล 5+5</td><td>3 × 12</td></tr>
+  <tr><td>Reverse lunge (ถือ 2 ลูก)</td><td>ดัมเบล 5+5</td><td>3 × 10 ต่อขา</td></tr>
+  <tr><td>Glute bridge + ยางยืดคาดเข่า</td><td>ยางยืด</td><td>3 × 15</td></tr>
+  <tr><td>Plank</td><td>bodyweight</td><td>3 × 40 วินาที</td></tr>
+</table>
+<h3>เวท B — พฤหัส (ขาเดี่ยว/น่อง/เสถียรภาพ)</h3>
+<table>
+  <tr><th>ท่า</th><th>อุปกรณ์</th><th>เซ็ต × ครั้ง</th></tr>
+  <tr><td>Bulgarian split squat (ถือ 2 ลูก)</td><td>ดัมเบล 5+5</td><td>3 × 10 ต่อขา</td></tr>
+  <tr><td>Single-leg calf raise (ถือ 1 ลูก)</td><td>ดัมเบล 5 กก.</td><td>3 × 15 ต่อข้าง</td></tr>
+  <tr><td>Banded lateral walk</td><td>ยางยืด (คาดเหนือเข่า)</td><td>3 × 12 ต่อข้าง</td></tr>
+  <tr><td>Dumbbell step-up</td><td>ดัมเบล 5+5</td><td>3 × 10 ต่อขา</td></tr>
+  <tr><td>Side plank</td><td>bodyweight</td><td>3 × 30 วินาที ต่อข้าง</td></tr>
+  <tr><td>Banded clamshell</td><td>ยางยืด</td><td>2 × 15 ต่อข้าง</td></tr>
+</table>
+<p class="note">5 กก. เบาสำหรับคุณแน่ → เน้นทำช้า-คุม 3 วินาทีช่วงลดน้ำหนัก และเพิ่มจำนวนครั้งได้ · ช่วง taper (W9) ลดเหลือ 2 เซ็ต/ท่า หรืองด</p>
+
+<h2>🧘 ตารางฟื้นฟู (Recovery)</h2>
+<table>
+  <tr><th>รายการ</th><th>วัน</th><th>รายละเอียด</th></tr>
+  <tr><td>พักเต็ม (ไม่วิ่ง)</td><td>เสาร์</td><td>พัก 1 วันก่อน long run อาทิตย์ · นอน 7.5–8 ชม.</td></tr>
+  <tr><td>Active recovery (วิ่งเบา)</td><td>จันทร์ + พุธ + ศุกร์</td><td>Easy ช้าๆ ล้างของเสีย เลือดไหลเวียน (จันทร์/ศุกร์ สั้น-ช้าจริง 3–5 กม. @6:30)</td></tr>
+  <tr><td>ยืด dynamic</td><td>ก่อนวิ่งทุกครั้ง</td><td>ดูหัวข้อวอร์มอัพ</td></tr>
+  <tr><td>ยืด static</td><td>ทุกวันหลังวิ่ง + จันทร์</td><td>ค้างท่าละ 30 วิ/ข้าง (ดูหัวข้อคูลดาวน์)</td></tr>
+  <tr><td>โฟมโรลเลอร์ / นวดกด</td><td>จันทร์ + หลัง long run (อา.)</td><td>น่อง IT band quad ฝ่าเท้า 8–10 นาที</td></tr>
+  <tr><td>Deload</td><td>W6</td><td>ลดปริมาณ ~30% ให้ร่างกายซ่อมแซมก่อนเข้า peak</td></tr>
+  <tr><td><strong>การนอน (จุดที่ต้องแก้)</strong></td><td>ทุกคืน</td><td>เป้า 7.5–8 ชม. (ปัจจุบัน ~6.5 ชม.) ตัวฟื้นฟูที่ให้ผลมากที่สุด</td></tr>
+  <tr><td>HRV / Body Battery</td><td>เช็คทุกเช้า</td><td>ถ้า HRV ตกต่ำกว่าปกติ หรือ Body Battery ตื่นมา &lt;30 → เปลี่ยนจันทร์/พุธเป็นพักแทนได้</td></tr>
+  <tr><td>โซน HR เป้า</td><td>ทุกการวิ่ง</td><td>easy HR &lt;145 · threshold ~165–172 · interval &gt;175 (ปรับตาม HR max จริง)</td></tr>
+</table>
+<p class="note"><strong>สัญญาณต้องพักเพิ่ม:</strong> ชีพจรเช้าสูงผิดปกติ, นอนไม่หลับ, ปวดเฉพาะจุดเกิน 2 วัน, หมดแรงเรื้อรัง → ลดความหนักหรือพักเพิ่ม 1 วัน อย่าฝืน</p>
+
+<h2>🥗 คำแนะนำโภชนาการ</h2>
+<table>
+  <tr><th>ช่วงเวลา</th><th>คำแนะนำ</th></tr>
+  <tr><td><strong>ก่อนซ้อม</strong> (1.5–2 ชม.)</td><td>คาร์บย่อยง่าย + โปรตีนเล็กน้อย เช่น ข้าว/ขนมปัง + ไข่ + กล้วย · ถ้าซ้อมเช้าเร่งด่วน กินกล้วยหรือขนมปัง 1 ชิ้นก่อน 30–45 นาที</td></tr>
+  <tr><td><strong>ระหว่างซ้อม</strong></td><td>ซ้อม &lt;60 นาที จิบน้ำพอ · long run &gt;75 นาที เติมเจล/น้ำเกลือแร่ทุก 40–45 นาที (คาร์บ 30–60 กรัม/ชม.)</td></tr>
+  <tr><td><strong>หลังซ้อม</strong> (ภายใน 30–60 นาที)</td><td>คาร์บ:โปรตีน ~3:1 เช่น นมช็อกโกแลต, ข้าว+ไก่/ปลา, โยเกิร์ต+ผลไม้ ฟื้นฟูไกลโคเจน + ซ่อมกล้ามเนื้อ</td></tr>
+  <tr><td><strong>รายวัน</strong></td><td>คาร์บ 5–7 กรัม/กก.น้ำหนักตัว · โปรตีน 1.4–1.8 กรัม/กก. · ไขมันดี + ผักผลไม้หลากสี · ธาตุเหล็ก (นักวิ่งเสี่ยงขาด)</td></tr>
+  <tr><td><strong>เติมน้ำ</strong></td><td>ดื่มน้ำสม่ำเสมอทั้งวัน (ปัสสาวะสีอ่อน) · ชั่งน้ำหนักก่อน/หลัง long run ทุก 1 กก.ที่หาย = ดื่มทดแทน ~1.5 ลิตร</td></tr>
+  <tr><td><strong>3 วันก่อนแข่ง</strong></td><td>เพิ่มคาร์บเป็น 7–8 กรัม/กก. (carb loading เบาๆ) ลดใยอาหารหยาบ ลดของมัน/ทอด</td></tr>
+  <tr><td><strong>เช้าวันแข่ง</strong> (3 ชม.ก่อนออกตัว)</td><td>อาหารคุ้นเคยคาร์บสูง ย่อยง่าย เช่น ข้าวต้ม/ขนมปัง+แยม+กล้วย ~500–600 แคล · จิบน้ำ 400–500 มล. · งดของใหม่ที่ไม่เคยลอง</td></tr>
+  <tr><td><strong>ระหว่างแข่ง 10K</strong></td><td>ระยะสั้น ไม่จำเป็นต้องกินเจล · จิบน้ำที่จุดพักถ้าอากาศร้อน · ถ้าเคยชินคาเฟอีน กาแฟ 1 แก้วก่อนออกตัว ~45 นาทีช่วยได้</td></tr>
+  <tr><td><strong>หลังแข่ง</strong></td><td>เติมคาร์บ + โปรตีน + น้ำ + เกลือแร่ภายใน 1 ชม. ยืดเบาๆ เดินคูลดาวน์</td></tr>
+</table>
+
+<h2>📖 วิธีอ่านตาราง</h2>
+<div class="box">
+  <strong>สูตรการอ่าน:</strong> <code>[จำนวนเที่ยว] × [เวลา/ระยะต่อเที่ยว] @[pace] พัก [เวลาพัก]</code><br>
+  ตัวอย่าง: <code>2×10' @4:40 พัก 2'</code> = ทำ 2 รอบ, รอบละ 10 นาที, ที่ pace 4:40/กม., พักระหว่างรอบ 2 นาที
+</div>
+<table>
+  <tr><th>เครื่องหมาย</th><th>ความหมาย</th><th>ตัวอย่าง</th></tr>
+  <tr><td><strong>×</strong></td><td>"คูณ" = จำนวนรอบที่ทำซ้ำ</td><td><code>6×800ม</code> = วิ่ง 800 ม. 6 เที่ยว</td></tr>
+  <tr><td><strong>'</strong> (ขีดเดียว)</td><td>นาที</td><td><code>10'</code> = 10 นาที · <code>พัก 2'</code> = พัก 2 นาที</td></tr>
+  <tr><td><strong>"</strong> (ขีดคู่)</td><td>วินาที</td><td><code>พัก 90"</code> = พัก 90 วินาที</td></tr>
+  <tr><td><strong>ม</strong></td><td>เมตร (ระยะ)</td><td><code>800ม</code> = 800 เมตร</td></tr>
+  <tr><td><strong>@</strong></td><td>"ที่ pace" (นาที:วินาที ต่อ 1 กม.)</td><td><code>@4:25</code> = ที่ pace 4 นาที 25 วินาที/กม.</td></tr>
+  <tr><td><strong>พัก</strong></td><td>ช่วงพักระหว่างเที่ยว (จ็อกเบาหรือเดิน)</td><td><code>พัก 2'</code> = จ็อก/เดิน 2 นาทีก่อนเริ่มเที่ยวถัดไป</td></tr>
+</table>
+<p class="note">💡 นาฬิกา Garmin โชว์ pace แบบ real-time อยู่แล้ว — แค่คุมให้ pace ตรงกับ @ ที่ระบุตอนวิ่งช่วงเร็ว · <strong>Tempo</strong> วัดเป็น<strong>เวลา</strong> (เช่น 2×10') · <strong>Interval</strong> วัดเป็น<strong>ระยะ</strong> (เช่น 6×800ม)</p>
+
+<h2>🏃 อธิบายทุกประเภท session</h2>
+
+<h3>1. Interval (วันอังคาร)</h3>
+<div class="box">
+  <strong>คืออะไร:</strong> วิ่งเร็วเป็นช่วงสั้นๆ วัดเป็นระยะ สลับกับพักเต็ม เพื่อพัฒนาความเร็วและ VO₂max<br>
+  <strong>วิ่งเท่าไร / pace:</strong> เช่น <code>6×800ม @4:00 พัก 2'</code> = 800 เมตร 6 เที่ยว ที่ pace 4:00/กม. (เร็วกว่า race pace) พักระหว่างเที่ยว 2 นาที · ระยะต่อเที่ยวอยู่ที่ 400–1500 ม. ตามสัปดาห์<br>
+  <strong>จุดประสงค์:</strong> ยกเพดานความเร็วสูงสุด ทำให้ race pace 4:25 รู้สึก "สบายขึ้น" เพราะเคยวิ่งเร็วกว่านั้นมาแล้ว<br>
+  <strong>วิธีอ่าน:</strong> <code>[เที่ยว]×[ระยะ ม.] @[pace] พัก [เวลา]</code> — ความเร็วมาก่อน พักให้หายเหนื่อยพอก่อนเที่ยวถัดไป
+</div>
+
+<h3>2. Tempo / Threshold (วันพฤหัส)</h3>
+<div class="box">
+  <strong>คืออะไร:</strong> วิ่งเร็วปานกลาง-หนักต่อเนื่องเป็นช่วงเวลานานๆ ("หนักแบบสบาย" พูดเป็นคำสั้นๆ ได้) วัดเป็นเวลา<br>
+  <strong>วิ่งเท่าไร / pace:</strong> เช่น <code>2×10' @4:40 พัก 2'</code> = 10 นาที 2 รอบ ที่ pace 4:40/กม. พัก 2 นาที · หรือต่อเนื่องรวดเดียว เช่น <code>1×25' @4:40</code> = วิ่ง 25 นาทีรวด ไม่มีพัก<br>
+  <strong>จุดประสงค์:</strong> ยก lactate threshold (จุดที่ร่างกายเริ่มล้า) ให้สูงขึ้น = หัวใจของแผนสำหรับคนที่ความเร็วพอแล้วแต่ต้องเพิ่มความทนที่ race pace<br>
+  <strong>วิธีอ่าน:</strong> <code>[รอบ]×[เวลา นาที] @[pace] พัก [เวลา]</code> — เน้นค้าง pace นิ่งๆ นานๆ ไม่ต้องเร็วสุด
+</div>
+
+<h3>3. Easy (จันทร์ / พุธ / ศุกร์)</h3>
+<div class="box">
+  <strong>คืออะไร:</strong> วิ่งช้าสบาย พูดคุยได้เต็มประโยค — ไม่ใช่วันเก็บความเร็ว<br>
+  <strong>วิ่งเท่าไร / pace:</strong> 3–8 กม. ที่ pace 5:45–6:30/กม. (จันทร์/ศุกร์ สั้น-ช้าจริง 3–5 กม. @6:30 เป็น active recovery)<br>
+  <strong>จุดประสงค์:</strong> สร้าง aerobic base, ล้างของเสีย, ให้เลือดไหลเวียนฟื้นฟูกล้ามเนื้อ โดยไม่เพิ่มความล้า<br>
+  <strong>วิธีอ่าน:</strong> <code>Easy [ระยะ กม.] @[pace]</code> — ช้าไว้ก่อน ถ้ารู้สึกเหนื่อยแปลว่าเร็วเกิน
+</div>
+
+<h3>4. Long run (วันอาทิตย์)</h3>
+<div class="box">
+  <strong>คืออะไร:</strong> วิ่งระยะยาวสุดของสัปดาห์ สร้างความทนทาน (endurance)<br>
+  <strong>วิ่งเท่าไร / pace:</strong> 11–16 กม. ที่ pace 5:20–5:50/กม. · บางสัปดาห์มีช่วงท้ายเร่ง เช่น <code>Long 15 กม. (5 กม.ท้าย @4:40)</code> = วิ่ง 15 กม. โดย 5 กม.สุดท้ายเร่งเป็น pace 4:40<br>
+  <strong>จุดประสงค์:</strong> เพิ่มความทนของกล้ามเนื้อและระบบพลังงาน ฝึกใจให้ชินกับการวิ่งนาน + ช่วงท้ายเร่งคือฝึกวิ่งเร็วตอนขาล้า (เหมือนช่วงท้ายการแข่ง)<br>
+  <strong>วิธีอ่าน:</strong> <code>Long [ระยะ] @[pace]</code> หรือมีวงเล็บบอกช่วงเร่งท้าย
+</div>
+
+<h3>5. Race-pace / Time trial (ช่วง Peak)</h3>
+<div class="box">
+  <strong>คืออะไร:</strong> ซ้อมที่ pace แข่งจริง (4:25) เพื่อให้ร่างกายจำความรู้สึกของวันแข่ง · Time trial = ทดสอบวิ่งจริงจัง<br>
+  <strong>วิิ่งเท่าไร / pace:</strong> เช่น <code>5×1200ม @4:25 (RP) พัก 90"</code> = 1200 ม. 5 เที่ยวที่ race pace พัก 90 วินาที · <code>Time trial 8 กม. @4:25</code> = วิ่ง 8 กม. รวดที่ race pace เพื่อวัดความพร้อม<br>
+  <strong>จุดประสงค์:</strong> ปรับร่างกาย+จังหวะให้คุ้นกับ race pace ก่อนแข่ง · ถ้า time trial 8 กม. @4:25 ทำได้สบาย = พร้อม sub-45<br>
+  <strong>วิธีอ่าน:</strong> <code>(RP)</code> = Race Pace = 4:25/กม.
+</div>
+
+<h3>6. เวท A / เวท B (ต่อท้าย Interval และ Tempo)</h3>
+<div class="box">
+  <strong>คืออะไร:</strong> ฝึกความแข็งแรงด้วยดัมเบล 5 กก. + ยางยืด ทำต่อท้ายวันวิ่งเร็วเท่านั้น (อ./พฤ.)<br>
+  <strong>ทำเท่าไร:</strong> <strong>เวท A (อังคาร):</strong> Goblet squat 3×12, RDL 3×12, Reverse lunge 3×10/ขา, Glute bridge+ยางยืด 3×15, Plank 3×40วิ · <strong>เวท B (พฤหัส):</strong> Bulgarian split squat 3×10/ขา, Single-leg calf raise 3×15/ข้าง, Banded lateral walk 3×12/ข้าง, Dumbbell step-up 3×10/ขา, Side plank 3×30วิ/ข้าง, Banded clamshell 2×15/ข้าง (ดูตารางเวทด้านบน)<br>
+  <strong>จุดประสงค์:</strong> เพิ่มความแข็งแรงขา/สะโพก/แกนกลาง ป้องกันบาดเจ็บ และวิ่งได้มีประสิทธิภาพขึ้น<br>
+  <strong>วิธีอ่าน:</strong> <code>[เซ็ต]×[ครั้ง]</code> เช่น <code>3×12</code> = 12 ครั้ง 3 เซ็ต พักระหว่างเซ็ต 60–90 วินาที
+</div>
+
+<h3>7. Recovery (ทุกวัน + วันพัก)</h3>
+<div class="box">
+  <strong>คืออะไร:</strong> การฟื้นฟูร่างกาย ทั้งแบบ active (วิ่งเบา) และ passive (พัก/ยืด/โฟมโรลเลอร์)<br>
+  <strong>ทำเท่าไร:</strong> พักเต็ม = เสาร์ (ไม่วิ่ง) · active recovery = จันทร์/พุธ/ศุกร์ (Easy ช้าๆ) · โฟมโรลเลอร์ 8–10 นาที (จันทร์ + หลัง long run) · static stretch ทุกวันหลังวิ่ง ค้างท่าละ 30 วินาที<br>
+  <strong>จุดประสงค์:</strong> ให้ร่างกายซ่อมแซมและแข็งแรงขึ้นจริง — การพัฒนาเกิดตอนพัก ไม่ใช่ตอนซ้อม ถ้าไม่ฟื้นพอจะ overtraining<br>
+  <strong>วิธีอ่าน:</strong> 🧘 ในตาราง = ทำ recovery วันนั้น · เช็ค HRV/Body Battery ทุกเช้า ถ้าตกให้เปลี่ยนวิ่งเบาเป็นพัก
+</div>
+
+<footer>
+  แผนนี้ตั้งอยู่บนสมมติฐานว่าไม่มีอาการบาดเจ็บ · ระหว่างฝึกให้เชื่อ HRV / Body Battery ของ Garmin เป็นตัวตัดสินว่าวันไหนควรถอย ·
+  ปรับความหนัก/ปริมาณตามสภาพร่างกายจริง<br>
+  สร้างเมื่อ 5 พ.ย. 2569 · เป้าหมาย 10 กม. Sub-45 · วันแข่ง เสาร์ 10 ม.ค. 2570
+</footer>
+
+</body>
+</html>
